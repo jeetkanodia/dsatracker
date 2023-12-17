@@ -9,7 +9,10 @@ const EmailSection = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    localStorage.getItem("token") && window.location.href("/");
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
   }, []);
 
   const handleLogin = async (e) => {

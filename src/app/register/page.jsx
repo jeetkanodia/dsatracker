@@ -7,18 +7,44 @@ const EmailSection = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
-    console.log("email", email);
-    console.log("password", password);
-  }, [email, password]);
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!email || !password || !username) return;
+
+    const res = await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({ username, email, password }),
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.error) {
+      setError(data.error);
+      return;
+    }
+    if (data.token) {
+      setError("");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("email", data.email);
+      window.location.href = "/";
+    }
+  };
 
   return (
     <div className="register-page-container">
       <div className="register-container">
-        <h2 className="text-3xl font-bold text-white mb-5">Register</h2>
+        <h2 className="text-3xl font-bold text-white mb-5 mt-5">Register</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">
           <div>
-            <form className="flex flex-col">
+            <form onSubmit={handleRegister} className="flex flex-col">
               <div className="mb-6">
                 <label
                   htmlFor="userame"
@@ -123,6 +149,9 @@ const EmailSection = () => {
               >
                 Register
               </button>
+              <p className="text-red-400 block text-sm mt-4 font-medium mb-5">
+                {error ? error : ""}
+              </p>
             </form>
           </div>
         </section>
