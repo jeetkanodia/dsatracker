@@ -6,10 +6,34 @@ const EmailSection = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    console.log("email", email);
-    console.log("password", password);
-  }, [email, password]);
+    localStorage.getItem("token") && window.location.href("/");
+  }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email || !password) return;
+
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.error) {
+      setError(data.error);
+      return;
+    }
+    if (data.result) {
+      setError("");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.result.username);
+      localStorage.setItem("email", data.result.email);
+      window.location.href = "/";
+    }
+  };
 
   return (
     <div className="login-page-container">
@@ -17,7 +41,7 @@ const EmailSection = () => {
         <h2 className="text-3xl font-bold text-white mb-5">Log In</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">
           <div>
-            <form className="flex flex-col">
+            <form onSubmit={handleLogin} className="flex flex-col">
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -104,6 +128,9 @@ const EmailSection = () => {
               >
                 Log In
               </button>
+              <p className="text-red-400 block text-sm mt-4 font-medium">
+                {error ? error : ""}
+              </p>
             </form>
           </div>
         </section>
