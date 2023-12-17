@@ -1,8 +1,9 @@
 "use client";
 import React, { use, useState, useEffect } from "react";
-import "./login.css";
+import "./register.css";
 import Link from "next/link";
 const EmailSection = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -12,12 +13,30 @@ const EmailSection = () => {
   }, [email, password]);
 
   return (
-    <div className="login-page-container">
-      <div className="login-container">
-        <h2 className="text-3xl font-bold text-white mb-5">Log In</h2>
+    <div className="register-page-container">
+      <div className="register-container">
+        <h2 className="text-3xl font-bold text-white mb-5">Register</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">
           <div>
             <form className="flex flex-col">
+              <div className="mb-6">
+                <label
+                  htmlFor="userame"
+                  className="text-white block mb-2 text-sm font-medium"
+                >
+                  Username
+                </label>
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  name="username"
+                  type="text"
+                  id="username"
+                  required
+                  className="bg-[#18191E] border focus:outline-none border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
+                  placeholder="jacobiscool"
+                />
+              </div>
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -90,19 +109,19 @@ const EmailSection = () => {
               </div>
 
               <p className="text-white block text-sm mb-3 font-medium">
-                Do not have an account?{" "}
+                Already have an account?{" "}
                 <Link
-                  href={"/register"}
+                  href={"/login"}
                   className="text-primary-300 hover:text-primary-500"
                 >
-                  Register
+                  Log In
                 </Link>
               </p>
               <button
                 type="submit"
                 className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
               >
-                Log In
+                Register
               </button>
             </form>
           </div>
