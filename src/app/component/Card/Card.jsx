@@ -5,12 +5,12 @@ import Button from "@mui/material/Button";
 
 const Card = ({ link, title, number }) => {
   return (
-    <Link href={link}>
-      <div className="card-container">
-        <h1 className="card-title">{title}</h1>
-        <p className="card-numbers">Total questions: {number}</p>
+    <div className="card-container">
+      <h1 className="card-title">{title}</h1>
+      <p className="card-numbers">Total questions: {number}</p>
 
-        <div className="card-btn">
+      <div className="card-btn">
+        <Link href={`questions/${link}`}>
           <Button
             style={{
               borderRadius: "30px",
@@ -21,9 +21,9 @@ const Card = ({ link, title, number }) => {
           >
             Start Solving
           </Button>
-        </div>
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 };
 
