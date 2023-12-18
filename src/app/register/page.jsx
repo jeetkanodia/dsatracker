@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./register.css";
 import Link from "next/link";
 const EmailSection = () => {
@@ -8,6 +8,7 @@ const EmailSection = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,9 +17,10 @@ const EmailSection = () => {
   }, []);
 
   const handleRegister = async (e) => {
+    setError("");
     e.preventDefault();
     if (!email || !password || !username) return;
-
+    setLoading(true);
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ username, email, password }),
@@ -26,10 +28,12 @@ const EmailSection = () => {
     const data = await res.json();
     console.log(data);
     if (data.error) {
+      setLoading(false);
       setError(data.error);
       return;
     }
     if (data.token) {
+      setLoading(false);
       setError("");
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
@@ -144,6 +148,7 @@ const EmailSection = () => {
                 </Link>
               </p>
               <button
+                disabled={loading}
                 type="submit"
                 className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
               >

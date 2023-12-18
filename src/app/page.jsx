@@ -19,6 +19,7 @@ export default function ButtonUsage() {
           const newArr = data?.topicList;
           setLoading(false);
           setData(newArr);
+          console.log(newArr);
         }
       });
   }, []);
