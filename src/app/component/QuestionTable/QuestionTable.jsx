@@ -1,6 +1,16 @@
 import React from "react";
 import "./QuestionTable.css";
 const QuestionTable = () => {
+  const handleCheckboxChange = (e) => {
+    const id = e.target.name;
+    const isChecked = e.target.checked;
+    const element = document.getElementById(id);
+    if (isChecked) {
+      element.classList.add("strikethrough");
+    } else {
+      element.classList.remove("strikethrough");
+    }
+  };
   return (
     <div className="mt-10 overflow-hidden">
       <table className="w-full">
@@ -10,13 +20,13 @@ const QuestionTable = () => {
             <th className="w-[50%] text-xs ml-2 text-white font-semi-bold">
               Title
             </th>
-            <th className="text-xs w-[25%]  text-white">Album</th>
+            <th className="text-xs w-[25%]  text-white">Difficulty</th>
 
             <th className="w-[12.5%] text-white">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 1024 1024"
                 height="1em"
                 width="1em"
@@ -57,7 +67,7 @@ const QuestionTable = () => {
                     element.classList.remove("strikethrough");
                   }
                 }}
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
             </td>
           </tr>
@@ -79,17 +89,8 @@ const QuestionTable = () => {
               <input
                 type="checkbox"
                 name={"check"}
-                onChange={(e) => {
-                  const id = e.target.name;
-                  const isChecked = e.target.checked;
-                  const element = document.getElementById(id);
-                  if (isChecked) {
-                    element.classList.add("strikethrough");
-                  } else {
-                    element.classList.remove("strikethrough");
-                  }
-                }}
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                onChange={handleCheckboxChange}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
             </td>
           </tr>

@@ -1,30 +1,10 @@
 "use client";
-import { Password, Search } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+
+import React from "react";
 import SearchBar from "@/app/component/SearchBar/SearchBar";
 import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
+import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
 const page = ({ params }) => {
-  const [question, setQuestion] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchQuestion = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         // api endpoint
-  //       );
-  //       const data = await response.json();
-  //       setQuestion(data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setError(true);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchQuestion();
-  // }, []);
-
   const questionType = params.id;
 
   // convert question Type to title case string
@@ -40,6 +20,7 @@ const page = ({ params }) => {
       </h1>
       <div className="w-[80%] sm:w-[60%] mt-6">
         <SearchBar />
+        <ProgressBar />
         <QuestionTable />
       </div>
     </div>
