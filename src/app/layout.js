@@ -4,7 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import Navbar from "./component/Navbar";
+import Navbar from "./component/NavBar/Navbar";
 import "./globals.css";
 export default function RootLayout(props) {
   const { children } = props;
