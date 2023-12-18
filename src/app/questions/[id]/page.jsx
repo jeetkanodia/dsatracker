@@ -2,6 +2,7 @@
 import { Password, Search } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import SearchBar from "@/app/component/SearchBar/SearchBar";
+import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
 const page = ({ params }) => {
   const [question, setQuestion] = useState({});
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,7 @@ const page = ({ params }) => {
       </h1>
       <div className="w-[80%] sm:w-[60%] mt-6">
         <SearchBar />
+        <QuestionTable />
       </div>
     </div>
   );
