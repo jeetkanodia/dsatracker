@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import "./QuestionTable.css";
 import Link from "next/link";
 const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
@@ -33,6 +33,21 @@ const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
     const hover = new Array(length).fill(false);
     setHover(hover);
   }, []);
+
+  // another useEffect to handle checkbox state
+  useEffect(() => {
+    const handleInitalCheckbox = (question) => {
+      const id = question.qid;
+      const element = document.getElementById(id);
+      if (solvedQuestions.includes(question.qid)) {
+        element.classList.add("strikethrough");
+        element.childNodes[3].childNodes[0].checked = true;
+      }
+    };
+    questionList.forEach((element) => {
+      handleInitalCheckbox(element);
+    });
+  }, [questionList]);
 
   const handleHover = (index) => {
     const length = questionList.length;
@@ -130,7 +145,9 @@ const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
                   {question.title}
                 </Link>
               </td>
-              <td className="text-sm text-center w-[25%]">{index} HARD</td>
+              <td className="text-sm text-center w-[25%]">
+                {question.difficulty}
+              </td>
 
               <td className="text-sm w-[12.5%]">
                 <input

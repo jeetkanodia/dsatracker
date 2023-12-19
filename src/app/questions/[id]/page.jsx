@@ -34,6 +34,14 @@ const page = ({ params }) => {
     fetchData();
   }, []);
 
+  const handleFilter = (filterType) => {
+    if (filterType === "All") return setQuestions(originalQuestions);
+    const filteredQuestions = originalQuestions.filter(
+      (question) => question.difficulty === filterType
+    );
+    setQuestions(filteredQuestions);
+  };
+
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     setSearchQuery(searchTerm);
@@ -65,7 +73,11 @@ const page = ({ params }) => {
           <Loader className="" />
         ) : (
           <>
-            <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
+            <SearchBar
+              handleFilter={handleFilter}
+              searchQuery={searchQuery}
+              handleSearch={handleSearch}
+            />
             <ProgressBar
               solvedQuestionLength={solvedQuestionLength}
               totalQuestionLength={totalQuestionLength}
