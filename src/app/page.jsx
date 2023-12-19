@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Card from "./component/Card/Card";
-import { set } from "mongoose";
 import Loader from "./component/Loader/Loader";
 
 export default function ButtonUsage() {

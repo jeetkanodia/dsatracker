@@ -16,7 +16,10 @@ export default function RootLayout(props) {
           {children}
         </AppRouterCacheProvider>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"
+          async
+        ></script>
       </body>
     </html>
   );
