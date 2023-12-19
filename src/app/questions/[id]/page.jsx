@@ -9,7 +9,10 @@ const page = ({ params }) => {
   const questionType = params.id;
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [solvedQuestionLength, setSolvedQuestionLength] = useState(0);
+  const [totalQuestionLength, setTotalQuestionLength] = useState(0);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     setLoading(true);
     // fetch data from API using post method and pass questionType as body
@@ -20,13 +23,27 @@ const page = ({ params }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data?.["questionsList"][0]?.["questionList"]);
           setQuestions(data?.["questionsList"][0]?.["questionList"]);
+          setTotalQuestionLength(
+            data?.["questionsList"][0]?.["questionList"].length
+          );
+          setOriginalQuestions(data?.["questionsList"][0]?.["questionList"]);
           setLoading(false);
         });
     }
     fetchData();
   }, []);
+
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    setSearchQuery(searchTerm);
+
+    const filteredQuestions = originalQuestions.filter((question) =>
+      question.title.toLowerCase().includes(searchTerm)
+    );
+
+    setQuestions(filteredQuestions);
+  };
 
   // convert question Type to title case string
   const questionTypeTitle = questionType
@@ -48,9 +65,16 @@ const page = ({ params }) => {
           <Loader className="" />
         ) : (
           <>
-            <SearchBar />
-            <ProgressBar />
-            <QuestionTable questionList={questions} />
+            <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
+            <ProgressBar
+              solvedQuestionLength={solvedQuestionLength}
+              totalQuestionLength={totalQuestionLength}
+            />
+            <QuestionTable
+              setSolvedQuestionLength={setSolvedQuestionLength}
+              questionList={questions}
+              category={questionType}
+            />
           </>
         )}
       </div>

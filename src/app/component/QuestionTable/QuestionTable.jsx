@@ -1,14 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./QuestionTable.css";
 import Link from "next/link";
-const QuestionTable = ({ questionList }) => {
+const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
   const [hover, setHover] = useState([]);
-
+  const [solvedQuestions, setSolvedQuestions] = useState([]);
   useEffect(() => {
-    const length = questionList.length;
+    function fetchSolvedData() {
+      fetch("/api/questions/fetchsolved", {
+        method: "POST",
+        body: JSON.stringify({ category: category, username: "terimummy" }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSolvedQuestions(data?.solvedList);
+          setSolvedQuestionLength(data?.solvedList.length);
+          const handleInitalCheckbox = (question) => {
+            const id = question.qid;
+            const element = document.getElementById(id);
+            if (data?.solvedList.includes(question.qid)) {
+              console.log(question.qid);
+              element.classList.add("strikethrough");
+              element.childNodes[3].childNodes[0].checked = true;
+            }
+          };
+          questionList.forEach((element) => {
+            handleInitalCheckbox(element);
+          });
+        });
+    }
+    fetchSolvedData();
+    const length = questionList?.length;
     const hover = new Array(length).fill(false);
     setHover(hover);
-  }, [questionList]);
+  }, []);
 
   const handleHover = (index) => {
     const length = questionList.length;
@@ -18,12 +42,22 @@ const QuestionTable = ({ questionList }) => {
   };
 
   const handleCheckboxChange = (e) => {
+    fetch("/api/questions/markquestion", {
+      method: "POST",
+      body: JSON.stringify({
+        qid: e.target.name,
+        category: category,
+        username: "terimummy",
+      }),
+    });
     const id = e.target.name;
     const isChecked = e.target.checked;
     const element = document.getElementById(id);
     if (isChecked) {
+      setSolvedQuestionLength((prev) => prev + 1);
       element.classList.add("strikethrough");
     } else {
+      setSolvedQuestionLength((prev) => prev - 1);
       element.classList.remove("strikethrough");
     }
   };
@@ -56,7 +90,7 @@ const QuestionTable = ({ questionList }) => {
           </tr>
         </thead>
         <tbody>
-          {questionList.map((question, index) => (
+          {questionList?.map((question, index) => (
             <tr
               onMouseEnter={() => handleHover(index)}
               onMouseLeave={() => handleHover(index)}
@@ -74,7 +108,7 @@ const QuestionTable = ({ questionList }) => {
                     <svg
                       stroke="currentColor"
                       fill="currentColor"
-                      stroke-width="0"
+                      strokeWidth="0"
                       viewBox="0 0 16 16"
                       height="1.5em"
                       width="1.5em"
@@ -102,16 +136,7 @@ const QuestionTable = ({ questionList }) => {
                 <input
                   type="checkbox"
                   name={question.qid}
-                  onChange={(e) => {
-                    const id = e.target.name;
-                    const isChecked = e.target.checked;
-                    const element = document.getElementById(id);
-                    if (isChecked) {
-                      element.classList.add("strikethrough");
-                    } else {
-                      element.classList.remove("strikethrough");
-                    }
-                  }}
+                  onChange={handleCheckboxChange}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
               </td>
