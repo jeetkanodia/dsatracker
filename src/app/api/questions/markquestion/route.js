@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { set } from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
@@ -30,21 +31,69 @@ export async function POST(req, res) {
       return NextResponse.json({ error: "User does not exist" });
     }
 
-    // Await the result of find() and convert it to an array
-    const questionsList = await db
-      .collection("questions")
-      .find({ category: category })
-      .toArray();
+    let categoryExists = false;
+    // check if user has a question from that category
+    userExists.allQuestions.forEach(async (catObj) => {
+      if (catObj.category === category) {
+        categoryExists = true;
+        if (catObj["solvedQuestions"].includes(qid)) {
+          //remove the question from the list
+          const index = catObj["solvedQuestions"].indexOf(qid);
+          if (index > -1) {
+            catObj["solvedQuestions"].splice(index, 1);
+          }
+          await db
+            .collection("users")
+            .updateOne(
+              { username },
+              { $set: { allQuestions: userExists.allQuestions } }
+            );
+          return NextResponse.json({
+            questionsList: userExists.allQuestions,
+          });
+        } else {
+          //add the question to the list
+          catObj["solvedQuestions"].push(qid);
+          await db
+            .collection("users")
+            .updateOne(
+              { username },
+              { $set: { allQuestions: userExists.allQuestions } }
+            );
+          return NextResponse.json({
+            questionsList: userExists.allQuestions,
+          });
+        }
+      }
+    });
 
-    // Return the data as JSON
-    return NextResponse.json({ questionsList });
+    //if user does not have a question from that category
+    if (!categoryExists) {
+      userExists.allQuestions.push({
+        category: category,
+        solvedQuestions: [qid],
+      });
+      await db
+        .collection("users")
+        .updateOne(
+          { username },
+          { $set: { allQuestions: userExists.allQuestions } }
+        );
+      return NextResponse.json({
+        questionsList: userExists.allQuestions,
+      });
+    }
+
+    return NextResponse.json({
+      questionsList: userExists.allQuestions,
+    });
   } catch (error) {
-    // If there's an error, return it as JSON
+    console.log(error);
     return NextResponse.json({ error: error.message });
   } finally {
     // Close the client after fetching the data or in case of an error
     if (client) {
-      await client.close();
+      setTimeout(() => client.close(), 5000);
     }
   }
 }
@@ -78,3 +127,21 @@ export async function POST(req, res) {
 // };
 
 // module.exports = requireAuth;
+/*
+solvedQuestions =[
+    {
+    category: "arrays",
+    questionList: [],
+},
+{
+    category: "category",
+    questionList: [],
+},
+{
+    category: "category",
+    questionList: [],
+},
+]
+
+
+*/
