@@ -10,17 +10,17 @@ export default function ButtonUsage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/topics")
+    fetch("/api/questions")
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
           setError(true);
           setLoading(false);
         } else {
-          const newArr = data?.topicList;
+          const categoryList = data?.questions;
           setLoading(false);
-          setData(newArr);
-          console.log(newArr);
+          setData(categoryList);
+          console.log(categoryList);
         }
       });
   }, []);
@@ -39,9 +39,9 @@ export default function ButtonUsage() {
               {data.map((item, idx) => (
                 <Card
                   key={idx}
-                  title={item.title}
-                  link={item.link}
-                  number={item.number}
+                  title={item.category}
+                  link={item.category}
+                  number={item.questionCount}
                 />
               ))}
             </div>

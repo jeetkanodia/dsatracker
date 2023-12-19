@@ -1,23 +1,51 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-export async function GET(req, res) {
+export async function POST(req, res) {
+  let errorMsg = "Error: ";
+  let client;
+
   try {
-    const client = new MongoClient(process.env.MONGODB_URI);
+    client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
     const db = client.db();
 
-    // Await the result of find() and convert it to an array
-    const questions = await db.collection("questions").find({}).toArray();
+    const { username, category, qid } = await req.json();
 
-    // Close the client after fetching the data
-    await client.close();
+    if (!category) {
+      errorMsg += "No category provided";
+      throw new Error(errorMsg);
+    }
+    if (!username) {
+      errorMsg += "No username provided";
+      throw new Error(errorMsg);
+    }
+    if (!qid) {
+      errorMsg += "No qid provided";
+      throw new Error(errorMsg);
+    }
+
+    const userExists = await db.collection("users").findOne({ username });
+    if (!userExists) {
+      return NextResponse.json({ error: "User does not exist" });
+    }
+
+    // Await the result of find() and convert it to an array
+    const questionsList = await db
+      .collection("questions")
+      .find({ category: category })
+      .toArray();
 
     // Return the data as JSON
-    return NextResponse.json({ questions });
+    return NextResponse.json({ questionsList });
   } catch (error) {
     // If there's an error, return it as JSON
-    return NextResponse.json({ error });
+    return NextResponse.json({ error: error.message });
+  } finally {
+    // Close the client after fetching the data or in case of an error
+    if (client) {
+      await client.close();
+    }
   }
 }
 

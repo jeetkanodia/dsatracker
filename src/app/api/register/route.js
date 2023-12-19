@@ -60,6 +60,7 @@ export async function POST(req, res) {
       username,
       email,
       password: hashedPassword,
+      solvedQuestions: [],
     };
 
     const result = await db.collection("users").insertOne(newUser);

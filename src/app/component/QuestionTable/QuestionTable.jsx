@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./QuestionTable.css";
-const QuestionTable = () => {
+import Link from "next/link";
+const QuestionTable = ({ questionList }) => {
+  const [hover, setHover] = useState([]);
+
+  useEffect(() => {
+    const length = questionList.length;
+    const hover = new Array(length).fill(false);
+    setHover(hover);
+  }, [questionList]);
+
+  const handleHover = (index) => {
+    const length = questionList.length;
+    const newHover = new Array(length).fill(false);
+    newHover[index] = !hover[index];
+    setHover(newHover);
+  };
+
   const handleCheckboxChange = (e) => {
     const id = e.target.name;
     const isChecked = e.target.checked;
@@ -11,6 +27,7 @@ const QuestionTable = () => {
       element.classList.remove("strikethrough");
     }
   };
+
   return (
     <div className="mt-10 overflow-hidden">
       <table className="w-full">
@@ -39,61 +56,67 @@ const QuestionTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr
-            id={"check2"}
-            className="flex justify-around items-center text-gray-400 m-2 font-mono hover:bg-gray-200 hover:bg-opacity-10 rounded-md py-2"
-          >
-            <td className="w-[12.5%] flex justify-center mr-2 items-center">
-              2
-            </td>
-            <td className="ml-3 text-center w-[50%]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus non quibusdam blanditiis similique saepe dicta,
-              amet incidunt obcaecati neque aperiam.
-            </td>
-            <td className="text-sm text-center w-[25%]">dadad Girl!</td>
+          {questionList.map((question, index) => (
+            <tr
+              onMouseEnter={() => handleHover(index)}
+              onMouseLeave={() => handleHover(index)}
+              key={question.qid}
+              id={question.qid}
+              className="flex justify-around items-center text-gray-400 m-2 font-mono hover:bg-gray-200 hover:bg-opacity-10 rounded-md py-2"
+            >
+              <td className="w-[12.5%] flex justify-center  mr-2 items-center">
+                {hover[index] ? (
+                  <Link
+                    target="_blank"
+                    className="hover:text-blue-500"
+                    href={question.link}
+                  >
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 16 16"
+                      height="1.5em"
+                      width="1.5em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 010 1.393z"></path>
+                    </svg>
+                  </Link>
+                ) : (
+                  <>{index + 1}</>
+                )}
+              </td>
+              <td className="ml-3 text-center w-[50%]">
+                <Link
+                  target="_blank"
+                  className="hover:text-blue-500"
+                  href={question.link}
+                >
+                  {question.title}
+                </Link>
+              </td>
+              <td className="text-sm text-center w-[25%]">{index} HARD</td>
 
-            <td className="text-sm w-[12.5%]">
-              <input
-                type="checkbox"
-                name={"check2"}
-                onChange={(e) => {
-                  const id = e.target.name;
-                  const isChecked = e.target.checked;
-                  const element = document.getElementById(id);
-                  if (isChecked) {
-                    element.classList.add("strikethrough");
-                  } else {
-                    element.classList.remove("strikethrough");
-                  }
-                }}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-            </td>
-          </tr>
-          <tr
-            id={"check"}
-            className="flex justify-around items-center text-gray-400 m-2 font-mono hover:bg-gray-200 hover:bg-opacity-10 rounded-md py-2"
-          >
-            <td className="w-[12.5%] flex justify-center mr-2 items-center">
-              2
-            </td>
-            <td className="ml-3 text-center w-[50%]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus non quibusdam blanditiis similique saepe dicta,
-              amet incidunt obcaecati neque aperiam.
-            </td>
-            <td className="text-sm text-center w-[25%]">dadad Girl!</td>
-
-            <td className="text-sm w-[12.5%]">
-              <input
-                type="checkbox"
-                name={"check"}
-                onChange={handleCheckboxChange}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-            </td>
-          </tr>
+              <td className="text-sm w-[12.5%]">
+                <input
+                  type="checkbox"
+                  name={question.qid}
+                  onChange={(e) => {
+                    const id = e.target.name;
+                    const isChecked = e.target.checked;
+                    const element = document.getElementById(id);
+                    if (isChecked) {
+                      element.classList.add("strikethrough");
+                    } else {
+                      element.classList.remove("strikethrough");
+                    }
+                  }}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

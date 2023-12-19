@@ -4,9 +4,16 @@ import "./Card.css";
 import Button from "@mui/material/Button";
 
 const Card = ({ link, title, number }) => {
+  // change title to sentence case
+
+  const Title = title
+    .split("-")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
+
   return (
     <div className="card-container">
-      <h1 className="card-title">{title}</h1>
+      <h1 className="card-title">{Title}</h1>
       <p className="card-numbers">Total questions: {number}</p>
 
       <div className="card-btn">

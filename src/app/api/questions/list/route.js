@@ -1,23 +1,37 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-export async function GET(req, res) {
+export async function POST(req, res) {
+  let errorMsg = "Error: ";
+  let client;
+
   try {
-    const client = new MongoClient(process.env.MONGODB_URI);
+    client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
     const db = client.db();
 
-    // Await the result of find() and convert it to an array
-    const topicList = await db.collection("topics").find({}).toArray();
+    const { category } = await req.json();
+    if (!category) {
+      errorMsg += "No category provided";
+      throw new Error(errorMsg);
+    }
 
-    // Close the client after fetching the data
-    await client.close();
+    // Await the result of find() and convert it to an array
+    const questionsList = await db
+      .collection("questions")
+      .find({ category: category })
+      .toArray();
 
     // Return the data as JSON
-    return NextResponse.json({ topicList });
+    return NextResponse.json({ questionsList });
   } catch (error) {
     // If there's an error, return it as JSON
-    return NextResponse.json({ error });
+    return NextResponse.json({ error: error.message });
+  } finally {
+    // Close the client after fetching the data or in case of an error
+    if (client) {
+      await client.close();
+    }
   }
 }
 
