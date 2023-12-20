@@ -10,6 +10,8 @@ export async function POST(req, res) {
     await client.connect();
     const db = client.db();
 
+    // verify body
+
     const { category } = await req.json();
     if (!category) {
       errorMsg += "No category provided";

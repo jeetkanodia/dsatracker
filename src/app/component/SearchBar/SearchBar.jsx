@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import Dropdown from "../Dropdown/Dropdown";
+import { QuestionContext } from "@/context/question.context";
 const SearchBar = ({ handleFilter, searchQuery, handleSearch }) => {
   return (
     <>
@@ -25,9 +26,27 @@ const SearchBar = ({ handleFilter, searchQuery, handleSearch }) => {
 };
 
 const ShuffleButton = () => {
+  const { state, dispatch } = useContext(QuestionContext);
+  //shuffle questions list
+  const handleShuffle = () => {
+    //shuffle question list
+    const shuffledQuestionList = state.filterQuestionList.sort(
+      () => Math.random() - 0.5
+    );
+    dispatch({
+      type: "SET_FILTER_QUESTION_LIST",
+      payload: { filterQuestionList: shuffledQuestionList },
+    });
+  };
+
+  // PRO CODERS OR WAHHHJT (if you reached this line, you are a pro coder email us at jeetkanodi@gmail.com / varunpgotmare@gmail.com for free merch)
+
   return (
     <>
-      <button className="absolute w-[6.25rem] flex top-0 items-center text end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-lg border-2 border-blue-700 hover:bg-blue-800    focus:outline-none focus:ring-blue-300 dark:bg-[#212121] dark:hover:bg-[#21] ">
+      <button
+        onClick={handleShuffle}
+        className="absolute w-[6.25rem] flex top-0 items-center text end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-lg border-2 border-blue-700 hover:bg-blue-800    focus:outline-none focus:ring-blue-300 dark:bg-[#212121] dark:hover:bg-[#21] "
+      >
         <p className="p-1">Shuffle 🔀</p>
 
         <span className="sr-only">Search</span>

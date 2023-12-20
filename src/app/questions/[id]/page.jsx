@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SearchBar from "@/app/component/SearchBar/SearchBar";
 import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
 import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
 import Loader from "@/app/component/Loader/Loader";
+import { QuestionContext } from "@/context/question.context";
+
 const page = ({ params }) => {
+  const { state, dispatch } = useContext(QuestionContext);
+
   const questionType = params.id;
-  const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [solvedQuestionLength, setSolvedQuestionLength] = useState(0);
-  const [totalQuestionLength, setTotalQuestionLength] = useState(0);
-  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     setLoading(true);
     // fetch data from API using post method and pass questionType as body
@@ -23,11 +24,14 @@ const page = ({ params }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setQuestions(data?.["questionsList"][0]?.["questionList"]);
-          setTotalQuestionLength(
-            data?.["questionsList"][0]?.["questionList"].length
-          );
-          setOriginalQuestions(data?.["questionsList"][0]?.["questionList"]);
+          // dispatch questionList to context
+          dispatch({
+            type: "SET_INITAL_STATE",
+            payload: {
+              questionList: data?.["questionsList"][0]?.["questionList"],
+              category: questionType,
+            },
+          });
           setLoading(false);
         });
     }
@@ -35,22 +39,36 @@ const page = ({ params }) => {
   }, []);
 
   const handleFilter = (filterType) => {
-    if (filterType === "All") return setQuestions(originalQuestions);
-    const filteredQuestions = originalQuestions.filter(
-      (question) => question.difficulty === filterType
-    );
-    setQuestions(filteredQuestions);
+    let filteredQuestions;
+    setSearchQuery("");
+    if (filterType === "All") {
+      filteredQuestions = state.questionList;
+    } else {
+      filteredQuestions = state.questionList.filter(
+        (question) => question.difficulty === filterType
+      );
+    }
+    dispatch({
+      type: "SET_FILTER_QUESTION_LIST",
+      payload: {
+        filterQuestionList: filteredQuestions,
+      },
+    });
   };
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     setSearchQuery(searchTerm);
 
-    const filteredQuestions = originalQuestions.filter((question) =>
+    const filteredQuestions = state.questionList.filter((question) =>
       question.title.toLowerCase().includes(searchTerm)
     );
-
-    setQuestions(filteredQuestions);
+    dispatch({
+      type: "SET_FILTER_QUESTION_LIST",
+      payload: {
+        filterQuestionList: filteredQuestions,
+      },
+    });
   };
 
   // convert question Type to title case string
@@ -70,7 +88,7 @@ const page = ({ params }) => {
         }`}
       >
         {loading ? (
-          <Loader className="" />
+          <Loader />
         ) : (
           <>
             <SearchBar
@@ -78,15 +96,8 @@ const page = ({ params }) => {
               searchQuery={searchQuery}
               handleSearch={handleSearch}
             />
-            <ProgressBar
-              solvedQuestionLength={solvedQuestionLength}
-              totalQuestionLength={totalQuestionLength}
-            />
-            <QuestionTable
-              setSolvedQuestionLength={setSolvedQuestionLength}
-              questionList={questions}
-              category={questionType}
-            />
+            <ProgressBar />
+            <QuestionTable />
           </>
         )}
       </div>

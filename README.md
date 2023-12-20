@@ -1,11 +1,13 @@
+# DSA TRACKER
+
 ## TODO
 
 <ol>
 <li>
-    handle solved questions
+    <s>handle solved questions</s> 
  </li>
  <li>
-handle progress bar
+<s>handle progress bar</s> 
  </li>
 
  <li>

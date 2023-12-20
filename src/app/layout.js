@@ -4,6 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { UserContextProvider } from "../context/user.context";
 import Navbar from "./component/NavBar/Navbar";
 import "./globals.css";
 export default function RootLayout(props) {
@@ -11,11 +12,12 @@ export default function RootLayout(props) {
   return (
     <html lang="en">
       <body>
-        <AppRouterCacheProvider>
-          <Navbar />
-          {children}
-        </AppRouterCacheProvider>
-
+        <UserContextProvider>
+          <AppRouterCacheProvider>
+            <Navbar />
+            {children}
+          </AppRouterCacheProvider>
+        </UserContextProvider>
         <script
           src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"
           async

@@ -1,35 +1,61 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { QuestionContext } from "@/context/question.context";
+import { UserContext } from "@/context/user.context";
 import "./QuestionTable.css";
 import Link from "next/link";
-const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
+const QuestionTable = () => {
+  const { state, dispatch } = useContext(QuestionContext);
+
+  const { state: userState, dispatch: userDispatch } = useContext(UserContext);
+
   const [hover, setHover] = useState([]);
-  const [solvedQuestions, setSolvedQuestions] = useState([]);
+  const category = state?.category;
+
   useEffect(() => {
     function fetchSolvedData() {
       fetch("/api/questions/fetchsolved", {
         method: "POST",
-        body: JSON.stringify({ category: category, username: "terimummy" }),
+        body: JSON.stringify({
+          category: category,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userState?.userToken}`,
+        },
       })
         .then((res) => res.json())
         .then((data) => {
-          setSolvedQuestions(data?.solvedList);
-          setSolvedQuestionLength(data?.solvedList.length);
+          console.log(data);
+          // setSolvedQuestions(data?.solvedList);
+          if (data.error) {
+            dispatch({
+              type: "SET_SOLVED_QUESTION_LIST",
+              payload: { solvedQuestionList: [] },
+            });
+            return;
+          }
+
+          dispatch({
+            type: "SET_SOLVED_QUESTION_LIST",
+            payload: { solvedQuestionList: data?.solvedList },
+          });
+
           const handleInitalCheckbox = (question) => {
             const id = question.qid;
             const element = document.getElementById(id);
             if (data?.solvedList.includes(question.qid)) {
-              console.log(question.qid);
               element.classList.add("strikethrough");
               element.childNodes[3].childNodes[0].checked = true;
             }
           };
-          questionList.forEach((element) => {
+
+          state?.questionList.forEach((element) => {
             handleInitalCheckbox(element);
           });
         });
     }
     fetchSolvedData();
-    const length = questionList?.length;
+    const length = state?.questionList.length;
     const hover = new Array(length).fill(false);
     setHover(hover);
   }, []);
@@ -39,18 +65,18 @@ const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
     const handleInitalCheckbox = (question) => {
       const id = question.qid;
       const element = document.getElementById(id);
-      if (solvedQuestions.includes(question.qid)) {
+      if (state?.solvedQuestionList.includes(question.qid)) {
         element.classList.add("strikethrough");
         element.childNodes[3].childNodes[0].checked = true;
       }
     };
-    questionList.forEach((element) => {
+    state?.filterQuestionList.forEach((element) => {
       handleInitalCheckbox(element);
     });
-  }, [questionList]);
+  }, [state?.filterQuestionList]);
 
   const handleHover = (index) => {
-    const length = questionList.length;
+    const length = state?.filterQuestionList.length;
     const newHover = new Array(length).fill(false);
     newHover[index] = !hover[index];
     setHover(newHover);
@@ -62,19 +88,35 @@ const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
       body: JSON.stringify({
         qid: e.target.name,
         category: category,
-        username: "terimummy",
       }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userState?.userToken,
+      },
     });
     const id = e.target.name;
     const isChecked = e.target.checked;
     const element = document.getElementById(id);
     if (isChecked) {
-      setSolvedQuestionLength((prev) => prev + 1);
       element.classList.add("strikethrough");
     } else {
-      setSolvedQuestionLength((prev) => prev - 1);
       element.classList.remove("strikethrough");
     }
+
+    const newSolvedQuestionList = state?.solvedQuestionList;
+    if (isChecked) {
+      newSolvedQuestionList.push(id);
+    } else {
+      const index = newSolvedQuestionList.indexOf(id);
+      if (index > -1) {
+        newSolvedQuestionList.splice(index, 1);
+      }
+    }
+    console.log(newSolvedQuestionList);
+    dispatch({
+      type: "SET_SOLVED_QUESTION_LIST",
+      payload: { solvedQuestionList: newSolvedQuestionList },
+    });
   };
 
   return (
@@ -105,7 +147,7 @@ const QuestionTable = ({ setSolvedQuestionLength, questionList, category }) => {
           </tr>
         </thead>
         <tbody>
-          {questionList?.map((question, index) => (
+          {state?.filterQuestionList.map((question, index) => (
             <tr
               onMouseEnter={() => handleHover(index)}
               onMouseLeave={() => handleHover(index)}

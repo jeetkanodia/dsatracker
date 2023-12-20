@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { set } from "mongoose";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
@@ -11,14 +11,20 @@ export async function POST(req, res) {
     await client.connect();
     const db = client.db();
 
-    const { username, category, qid } = await req.json();
+    // verify token
+    const authorization = req.headers.get("Authorization");
+    console.log(authorization);
+    if (!authorization) {
+      return NextResponse.json({ error: "Auth token required" });
+    }
+    const token = authorization.split(" ")[1];
+    const { email } = jwt.verify(token, process.env.JWT_SECRET);
+
+    // verify body
+    const { category, qid } = await req.json();
 
     if (!category) {
       errorMsg += "No category provided";
-      throw new Error(errorMsg);
-    }
-    if (!username) {
-      errorMsg += "No username provided";
       throw new Error(errorMsg);
     }
     if (!qid) {
@@ -26,7 +32,7 @@ export async function POST(req, res) {
       throw new Error(errorMsg);
     }
 
-    const userExists = await db.collection("users").findOne({ username });
+    const userExists = await db.collection("users").findOne({ email });
     if (!userExists) {
       return NextResponse.json({ error: "User does not exist" });
     }
@@ -45,7 +51,7 @@ export async function POST(req, res) {
           await db
             .collection("users")
             .updateOne(
-              { username },
+              { email },
               { $set: { allQuestions: userExists.allQuestions } }
             );
           return NextResponse.json({
@@ -57,7 +63,7 @@ export async function POST(req, res) {
           await db
             .collection("users")
             .updateOne(
-              { username },
+              { email },
               { $set: { allQuestions: userExists.allQuestions } }
             );
           return NextResponse.json({
@@ -76,7 +82,7 @@ export async function POST(req, res) {
       await db
         .collection("users")
         .updateOne(
-          { username },
+          { email },
           { $set: { allQuestions: userExists.allQuestions } }
         );
       return NextResponse.json({
@@ -97,51 +103,3 @@ export async function POST(req, res) {
     }
   }
 }
-
-// const { authorization } = req.headers;
-
-//     if (!authorization) {
-//         return res.status(401).json({ error: "Auth token required" });
-//     }
-// const jwt = require("jsonwebtoken");
-
-// const User = require("../models/userModel");
-// const requireAuth = async (req, res, next) => {
-//   // verify authentication
-
-//   const { authorization } = req.headers;
-
-//   if (!authorization) {
-//     return res.status(401).json({ error: "Auth token required" });
-//   }
-//   const token = authorization.split(" ")[1];
-
-//   try {
-//     const { _id } = jwt.verify(token, process.env.SECRET);
-//     req.user = await User.findOne({ _id }).select("_id");
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(401).json({ error: "request is not authorized" });
-//   }
-// };
-
-// module.exports = requireAuth;
-/*
-solvedQuestions =[
-    {
-    category: "arrays",
-    questionList: [],
-},
-{
-    category: "category",
-    questionList: [],
-},
-{
-    category: "category",
-    questionList: [],
-},
-]
-
-
-*/

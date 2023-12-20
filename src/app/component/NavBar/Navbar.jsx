@@ -1,5 +1,7 @@
 "use client";
 import * as React from "react";
+import { useContext } from "react";
+import { UserContext } from "@/context/user.context";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,10 +16,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Home", "adad", "Hdadadome"];
+const pages = ["Home", "adad", "Hdadadomesss"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Navbar() {
+  const { state, dispatch } = useContext(UserContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -122,6 +125,7 @@ function Navbar() {
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
+                {state?.email}
               </Button>
             ))}
           </Box>
