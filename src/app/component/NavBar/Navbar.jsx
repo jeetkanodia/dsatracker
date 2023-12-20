@@ -17,10 +17,11 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Home", "adad", "Hdadadomesss"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard"];
 
 function Navbar() {
   const { state, dispatch } = useContext(UserContext);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,6 +38,11 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    location.href = "/";
   };
 
   return (
@@ -59,7 +65,7 @@ function Navbar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            DSA TRACKER
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -157,6 +163,14 @@ function Navbar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem
+                onClick={() => {
+                  handleCloseUserMenu();
+                  handleLogout();
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

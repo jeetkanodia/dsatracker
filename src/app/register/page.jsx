@@ -1,8 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "@/context/user.context";
 import "./register.css";
 import Link from "next/link";
 const EmailSection = () => {
+  const { state, dispatch } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +12,7 @@ const EmailSection = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = state?.userToken || localStorage.getItem("token");
     if (token) {
       window.location.href = "/";
     }
@@ -38,6 +40,16 @@ const EmailSection = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
+
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          username: data.username,
+          email: data.email,
+          userToken: data.token,
+        },
+      });
+
       window.location.href = "/";
     }
   };
