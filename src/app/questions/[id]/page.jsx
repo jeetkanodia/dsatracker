@@ -7,7 +7,7 @@ import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
 import Loader from "@/app/component/Loader/Loader";
 import { QuestionContext } from "@/context/question.context";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { state, dispatch } = useContext(QuestionContext);
 
   const questionType = params.id;
@@ -105,4 +105,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
