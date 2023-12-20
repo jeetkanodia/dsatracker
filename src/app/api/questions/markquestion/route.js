@@ -13,7 +13,7 @@ export async function POST(req, res) {
 
     // verify token
     const authorization = req.headers.get("Authorization");
-    console.log(authorization);
+
     if (!authorization) {
       return NextResponse.json({ error: "Auth token required" });
     }
@@ -94,7 +94,6 @@ export async function POST(req, res) {
       questionsList: userExists.allQuestions,
     });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message });
   } finally {
     // Close the client after fetching the data or in case of an error

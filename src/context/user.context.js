@@ -51,7 +51,6 @@ export const UserContextProvider = ({ children }) => {
         const currentTime = Date.now() / 1000;
         // Check token expiration
         if (decoded.exp && decoded.exp < currentTime) {
-          console.log("Token has expired");
           dispatch({ type: "LOGOUT" });
           return;
         }
@@ -68,7 +67,7 @@ export const UserContextProvider = ({ children }) => {
         });
       } catch (error) {
         // Handle decoding errors
-        console.error("Error decoding token:", error);
+        console.log(error);
         dispatch({ type: "LOGOUT" });
       }
     };

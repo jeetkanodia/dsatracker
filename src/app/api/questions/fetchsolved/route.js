@@ -12,7 +12,7 @@ export async function POST(req, res) {
     const db = client.db();
 
     const authorization = req.headers.get("Authorization");
-    console.log(authorization);
+
     if (!authorization) {
       return NextResponse.json({ error: "Auth token required" });
     }

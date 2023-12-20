@@ -45,7 +45,7 @@ const ShuffleButton = () => {
     <>
       <button
         onClick={handleShuffle}
-        className="absolute w-[6.25rem] flex top-0 items-center text end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-lg border-2 border-blue-700 hover:bg-blue-800    focus:outline-none focus:ring-blue-300 dark:bg-[#212121] dark:hover:bg-[#21] "
+        className="absolute w-[6.25rem] flex top-0 items-center text end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-lg border-2 border-secondary hover:bg-[#4b2770] focus:outline-none focus:ring-blue-300 dark:bg-[#212121] dark:hover:bg-[#4b2770] "
       >
         <p className="p-1">Shuffle 🔀</p>
 

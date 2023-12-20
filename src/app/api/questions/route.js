@@ -44,7 +44,7 @@ export async function GET(req, res) {
 //     req.user = await User.findOne({ _id }).select("_id");
 //     next();
 //   } catch (error) {
-//     console.log(error);
+//
 //     return res.status(401).json({ error: "request is not authorized" });
 //   }
 // };

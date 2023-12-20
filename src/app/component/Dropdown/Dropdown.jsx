@@ -11,7 +11,7 @@ export default function Dropdown({ handleFilter }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-secondary px-3 py-2 text-sm font-semibold text-white hover:bg-[#4b2770]">
           Filters
           <ChevronDownIcon
             className="-mr-1 h-5 w-5 text-white"

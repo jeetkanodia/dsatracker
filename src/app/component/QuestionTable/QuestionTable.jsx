@@ -25,7 +25,6 @@ const QuestionTable = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           // setSolvedQuestions(data?.solvedList);
           if (data.error) {
             dispatch({
@@ -112,7 +111,7 @@ const QuestionTable = () => {
         newSolvedQuestionList.splice(index, 1);
       }
     }
-    console.log(newSolvedQuestionList);
+
     dispatch({
       type: "SET_SOLVED_QUESTION_LIST",
       payload: { solvedQuestionList: newSolvedQuestionList },
@@ -156,10 +155,13 @@ const QuestionTable = () => {
               className="flex justify-around items-center text-gray-400 m-2 font-mono hover:bg-gray-200 hover:bg-opacity-10 rounded-md py-2"
             >
               <td className="w-[12.5%] flex justify-center  mr-2 items-center">
-                {hover[index] ? (
+                {hover[index] &&
+                !document
+                  .getElementById(question.qid)
+                  ?.classList.contains("strikethrough") ? (
                   <Link
                     target="_blank"
-                    className="hover:text-blue-500"
+                    className="hover:text-secondary"
                     href={question.link}
                   >
                     <svg
@@ -179,13 +181,20 @@ const QuestionTable = () => {
                 )}
               </td>
               <td className="ml-3 text-center w-[50%]">
-                <Link
-                  target="_blank"
-                  className="hover:text-blue-500"
-                  href={question.link}
-                >
-                  {question.title}
-                </Link>
+                {question.link &&
+                !document
+                  .getElementById(question.qid)
+                  ?.classList.contains("strikethrough") ? (
+                  <Link
+                    target="_blank"
+                    className="hover:text-secondary"
+                    href={question.link}
+                  >
+                    {question.title}
+                  </Link>
+                ) : (
+                  <span>{question.title}</span>
+                )}
               </td>
               <td className="text-sm text-center w-[25%]">
                 {question.difficulty}
@@ -196,7 +205,7 @@ const QuestionTable = () => {
                   type="checkbox"
                   name={question.qid}
                   onChange={handleCheckboxChange}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 rounded focus:ring-secondary dark:focus:ring-secondary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
               </td>
             </tr>

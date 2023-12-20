@@ -78,7 +78,7 @@ const Page = ({ params }) => {
     .join(" ");
 
   return (
-    <div className="w-full min-h-screen h-auto bg-[#212121] flex flex-col items-center pt-[100px]">
+    <div className="w-full min-h-screen h-auto top-0 absolute bg-[#212121] flex flex-col pt-[80px] items-center">
       <h1 className="home-title text-5xl font-bold text-white">
         {questionTypeTitle}
       </h1>

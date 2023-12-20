@@ -5,7 +5,7 @@ const Loader = () => {
     <div role="status" className="mt-10">
       <svg
         aria-hidden="true"
-        className="inline w-14 h-14 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+        className="inline w-14 h-14 text-gray-200 animate-spin dark:text-gray-600 fill-secondary"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -18,7 +18,6 @@ const reducer = (state, action) => {
         filterQuestionList: action.payload.questionList,
       };
     case "SET_SOLVED_QUESTION_LIST":
-      console.log("SET_SOLVED_QUESTION_LIST");
       return {
         ...state,
         solvedQuestionList: action.payload.solvedQuestionList,
