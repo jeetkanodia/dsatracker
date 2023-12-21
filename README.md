@@ -11,7 +11,7 @@
  </li>
 
  <li>
- Protect API routes with JWT tokens
+ <s>Protect API routes with JWT tokens</s>
  </li>
 
 <li>

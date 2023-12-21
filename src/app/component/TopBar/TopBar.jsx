@@ -26,7 +26,7 @@ export default function TopBar() {
   return (
     <Navbar isBlurred={false} className="bg-[rgba(0,0,0,0)]">
       <NavbarBrand>
-        {/* <Logo className="mr-2" /> */}
+        <Logo className="mr-2" /> 
         <Link href="/" className="text-white">
           <p className="font-bold text-inherit ">DSA TRACKER</p>
         </Link>
