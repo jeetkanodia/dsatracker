@@ -24,7 +24,7 @@ export default function TopBar() {
   };
 
   return (
-    <Navbar isBlurred={false} className="bg-[#212121]">
+    <Navbar isBlurred={false} className="bg-[rgba(0,0,0,0)]">
       <NavbarBrand>
         {/* <Logo className="mr-2" /> */}
         <Link href="/" className="text-white">
