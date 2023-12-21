@@ -57,7 +57,12 @@ const EmailSection = () => {
   };
 
   return (
-    <div className="bg-[#212121] absolute top-0 w-full min-h-screen flex items-center justify-center">
+    <div
+      style={{
+        backgroundImage: "radial-gradient(rgb(42, 37, 65), rgb(0, 0, 0))",
+      }}
+      className="bg-[#212121] absolute top-0 w-full min-h-screen flex items-center justify-center"
+    >
       <div className="bg-[rgba(255,255,255,0.1)] w-96 h-auto rounded-3xl flex flex-col mx-7 py-4 px-2  items-center justify-center">
         <h2 className="text-3xl font-bold text-white mb-5">Register</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">
