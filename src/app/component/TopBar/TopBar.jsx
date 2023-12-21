@@ -6,7 +6,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -14,8 +13,10 @@ import {
   Avatar,
   Button,
 } from "@nextui-org/react";
+import Link from "next/link";
 import { UserContext } from "@/context/user.context";
 import Logo from "./Logo";
+
 export default function TopBar() {
   const { state, dispatch } = useContext(UserContext);
   const handleLogout = () => {
@@ -26,7 +27,7 @@ export default function TopBar() {
   return (
     <Navbar isBlurred={false} className="bg-[rgba(0,0,0,0)]">
       <NavbarBrand>
-        <Logo className="mr-2" /> 
+        <Logo className="mr-2" />
         <Link href="/" className="text-white">
           <p className="font-bold text-inherit ">DSA TRACKER</p>
         </Link>
@@ -62,19 +63,18 @@ export default function TopBar() {
         ) : (
           <>
             <NavbarItem>
-              <Button as={Link} size="md" href="/login" variant="flat">
-                Login
-              </Button>
+              <Link href="/login">
+                <Button size="md" variant="flat">
+                  Login
+                </Button>
+              </Link>
             </NavbarItem>
             <NavbarItem>
-              <Button
-                as={Link}
-                color="secondary"
-                href="/register"
-                variant="flat"
-              >
-                Register
-              </Button>
+              <Link href="/register">
+                <Button color="secondary" variant="flat">
+                  Register
+                </Button>
+              </Link>
             </NavbarItem>
           </>
         )}

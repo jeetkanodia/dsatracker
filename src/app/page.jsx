@@ -36,16 +36,14 @@ export default function ButtonUsage() {
               <TypeAnimation
                 sequence={[
                   "Crack DSA with our specialized curated list🔥",
-                  1000,
                   "Save and track your progress.",
-                  1000,
                 ]}
                 wrapper="span"
                 speed={50}
                 repeat={Infinity}
               />
             </h1>
-            <div className="flex flex-wrap w- items-center ">
+            <div className="flex flex-wrap items-center p-5 gap-5">
               {data.map((item, idx) => (
                 <Card
                   key={idx}

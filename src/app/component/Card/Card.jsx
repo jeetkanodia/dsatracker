@@ -14,13 +14,14 @@ const Card = ({ link, title, number }) => {
 
   return (
     <div className="bg-gradient-to-br from-[#957AFF] m-auto p-2 hover:scale-105 shadow-sm transition ease-in-out from-0% to-[#7855FF] to-90%  flex flex-col items-start rounded-[10px]">
-      <div className="">
-        <h1 className="text-white  text-3xl">{Title}</h1>
+      <div className="mb-1 ml-1">
+        <h1 className="text-white  text-4xl mb-1">{Title}</h1>
         <p className="text-sm text-[rgba(255,255,255,0.5)]">
           Total questions: {number}
         </p>
       </div>
-      <p className="w-full mr-8">
+      <div className="w-full border-t-1 mb-2 border-[rgba(255,255,255,0.2)]"></div>
+      <p className="w-full mr-16">
         <Link href={`questions/${link}`}>
           <Button
             variant="flat"
