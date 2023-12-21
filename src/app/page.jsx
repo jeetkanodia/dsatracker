@@ -40,12 +40,11 @@ export default function ButtonUsage() {
           <>
             <h1 className=" mx-5 text-4xl font-bold text-white mt-2">
               Ace your{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">
+              <span className="bg-gradient-to-br from-red-500 via-indigo-500 to-teal-500 text-transparent bg-clip-text">
                 Coding Interviews
               </span>
             </h1>
-            //bg-gradient-to-t from-red-500 via-indigo-500 to-teal-500
-            text-transparent bg-clip-text
+
             <h3 className="mx-5 text-xl font-bold text-white mt-2">
               Solve questions from different categories including{" "}
               <TypeAnimation
