@@ -54,14 +54,36 @@ export default function ButtonUsage() {
                 repeat={Infinity}
               />
             </h3>
-            <div className="flex flex-wrap items-center p-5 gap-5">
+            <div className="flex flex-wrap max-w-screen-lg items-center p-5 gap-5">
               {data.map((item, idx) => (
-                <Card
-                  key={idx}
-                  title={item.category}
-                  link={item.category}
-                  number={item.questionCount}
-                />
+                <>
+                  <Card
+                    key={idx}
+                    title={item.category}
+                    link={item.category}
+                    number={item.questionCount}
+                  />
+                  <Card
+                    title={item.category}
+                    link={item.category}
+                    number={item.questionCount}
+                  />
+                  <Card
+                    title={item.category}
+                    link={item.category}
+                    number={item.questionCount}
+                  />
+                  <Card
+                    title={item.category}
+                    link={item.category}
+                    number={item.questionCount}
+                  />
+                  <Card
+                    title={item.category}
+                    link={item.category}
+                    number={item.questionCount}
+                  />
+                </>
               ))}
             </div>
           </>
