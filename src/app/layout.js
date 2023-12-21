@@ -4,6 +4,8 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter"; // 
 import { UserContextProvider } from "../context/user.context";
 import { NextUIProvider } from "@nextui-org/react";
 
+import { QuestionContextProvider } from "../context/question.context";
+
 import Navbar from "./component/TopBar/TopBar";
 import "./globals.css";
 export default function RootLayout(props) {
@@ -12,12 +14,14 @@ export default function RootLayout(props) {
     <html lang="en">
       <body>
         <NextUIProvider>
-          <main className="dark text-foreground ">
+          <main className="dark text-foreground bg-background">
             <UserContextProvider>
-              <AppRouterCacheProvider>
-                <Navbar />
-                {children}
-              </AppRouterCacheProvider>
+              <QuestionContextProvider>
+                <AppRouterCacheProvider>
+                  <Navbar />
+                  {children}
+                </AppRouterCacheProvider>
+              </QuestionContextProvider>
             </UserContextProvider>
           </main>
         </NextUIProvider>

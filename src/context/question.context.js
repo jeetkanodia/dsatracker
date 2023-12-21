@@ -6,6 +6,7 @@ const initialState = {
   filterQuestionList: [1, 2, 3],
   category: "null",
   solvedQuestionList: [1, 2, 3],
+  categoryList: [],
 };
 
 const reducer = (state, action) => {
@@ -27,6 +28,12 @@ const reducer = (state, action) => {
         ...state,
         filterQuestionList: action.payload.filterQuestionList,
       };
+    case "SET_CATEGORYLIST":
+      console.log(state);
+      return {
+        ...state,
+        categoryList: action.payload.categoryList,
+      };
     default:
       return state;
   }
@@ -39,6 +46,27 @@ export const QuestionContext = createContext({
 
 export const QuestionContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    console.log("fetching data");
+    function fetchData() {
+      fetch("/api/questions")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            const categoryList = data?.questions;
+            dispatch({
+              type: "SET_CATEGORYLIST",
+              payload: {
+                categoryList,
+              },
+            });
+          }
+        });
+    }
+    fetchData();
+  }, []);
   return (
     <QuestionContext.Provider value={{ state, dispatch }}>
       {children}

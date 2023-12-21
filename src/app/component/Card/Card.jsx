@@ -22,14 +22,17 @@ const Card = ({ link, title, number }) => {
       </div>
       <div className="w-full border-t-1 mb-2 border-[rgba(255,255,255,0.2)]"></div>
       <p className="w-full mr-16">
-        <Link href={`questions/${link}`}>
-          <Button
-            variant="flat"
-            className="bg-white text-[#6842FF] rounded-md w-full h-7"
+        <Button
+          variant="flat"
+          className="bg-white p-0 text-[#6842FF] rounded-md w-full h-7"
+        >
+          <Link
+            className="w-full p-[16px] text-[#6842FF] "
+            href={`questions/${link}`}
           >
             Start Solving
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </p>
     </div>
   );

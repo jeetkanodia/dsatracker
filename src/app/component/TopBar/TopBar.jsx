@@ -27,7 +27,9 @@ export default function TopBar() {
   return (
     <Navbar isBlurred={false} className="bg-[rgba(0,0,0,0)]">
       <NavbarBrand>
-        <Logo className="mr-2" />
+        <div className="mr-2">
+          <Logo />
+        </div>
         <Link href="/" className="text-white">
           <p className="font-bold text-inherit ">DSA TRACKER</p>
         </Link>
@@ -35,7 +37,7 @@ export default function TopBar() {
 
       <NavbarContent as="div" justify="end">
         {state?.email && state?.username && state?.userToken ? (
-          <Dropdown placement="bottom-end">
+          <Dropdown placement="bottom-end" className="bg-[#2B2B2B]">
             <DropdownTrigger>
               <Avatar
                 isBordered
@@ -47,13 +49,24 @@ export default function TopBar() {
                 src="https://cdn.discordapp.com/avatars/911699312713560144/4a8013e1bf4929623d0efb79849b0034.png"
               />
             </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{state?.username}</p>
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              className="text-white bg-[#2B2B2B]"
+            >
+              <DropdownItem
+                key="profile"
+                className="h-14 gap-2 hover:bg-[#2B2B2B]"
+              >
+                <p className="font-semibold text-white">Signed in as</p>
+                <p className="font-semibold text-white">{state?.username}</p>
               </DropdownItem>
-              <DropdownItem key="system">Profile</DropdownItem>
-              <DropdownItem key="configurations">Account</DropdownItem>
+              <DropdownItem key="system">
+                <span className="text-white ">Profile</span>
+              </DropdownItem>
+              <DropdownItem key="configurations">
+                <span className="text-white ">Account</span>
+              </DropdownItem>
               <DropdownItem key="help_and_feedback">Contact Us</DropdownItem>
               <DropdownItem onClick={handleLogout} key="logout" color="danger">
                 Log Out

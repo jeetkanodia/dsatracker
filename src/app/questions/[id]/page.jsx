@@ -6,16 +6,41 @@ import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
 import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
 import Loader from "@/app/component/Loader/Loader";
 import { QuestionContext } from "@/context/question.context";
+import { UserContext } from "@/context/user.context";
+import toast, { Toaster } from "react-hot-toast";
 
 const Page = ({ params }) => {
   const { state, dispatch } = useContext(QuestionContext);
-
+  const { state: userState, dispatch: userDispatch } = useContext(UserContext);
   const questionType = params.id;
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setLoading(true);
+    // check if user is logged in
+    if (
+      localStorage.getItem("token") === null &&
+      userState?.userToken === null
+    ) {
+      toast.error("Please log in to continue. Redirecting to login page....");
+      location.href = "/login";
+    }
+
+    if (state?.categoryList.length === 0) {
+      return;
+    }
+    let flag = false;
+    state?.categoryList.forEach((element) => {
+      if (element.category === questionType) {
+        flag = true;
+      }
+    });
+
+    if (!flag) {
+      location.href = "/";
+    }
+
     // fetch data from API using post method and pass questionType as body
     function fetchData() {
       fetch("/api/questions/list", {
@@ -36,7 +61,7 @@ const Page = ({ params }) => {
         });
     }
     fetchData();
-  }, []);
+  }, [state.categoryList]);
 
   const handleFilter = (filterType) => {
     let filteredQuestions;
@@ -76,9 +101,9 @@ const Page = ({ params }) => {
     .split("-")
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
-
   return (
     <div className="w-full min-h-screen h-auto top-0 absolute bg-[#212121] flex flex-col pt-[80px] items-center">
+      <Toaster />
       <h1 className="home-title text-5xl font-bold text-white">
         {questionTypeTitle}
       </h1>

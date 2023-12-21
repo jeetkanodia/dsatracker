@@ -8,7 +8,7 @@ export async function GET(req, res) {
     const db = client.db();
 
     // Await the result of find() and convert it to an array
-    const questions = await db.collection("questions").find({}).toArray();
+    const questions = await db.collection("categories").find({}).toArray();
 
     // Close the client after fetching the data
     await client.close();
