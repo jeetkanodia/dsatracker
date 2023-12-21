@@ -27,7 +27,7 @@ export default function ButtonUsage() {
 
   return (
     <>
-      <div className="bg-gradient-to-t from-[#2A2541] to-slate-900 absolute top-0 w-full min-h-screen h-auto flex flex-col items-center sm:pt-[100px] pt-[70px]">
+      <div className="bg-gradient-to-t from-[#2A2541] from-0% to-[#000000] to-90% absolute top-0 w-full min-h-screen h-auto flex flex-col items-center sm:pt-[100px] pt-[70px]">
         {loading ? (
           <Loader />
         ) : (
