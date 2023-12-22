@@ -7,8 +7,19 @@ const ProgressBar = () => {
   const [solvedQuestionLength, setSolvedQuestionLength] = useState(0);
   const [totalQuestionLength, setTotalQuestionLength] = useState(1);
   useEffect(() => {
-    setSolvedQuestionLength(state?.solvedQuestionList?.length);
     if (state?.questionList?.length === 0) return;
+
+    const allSolved = state?.solvedQuestionList;
+    let solved = 0;
+
+    for (let i = 0; i < state?.questionList?.length; i++) {
+      if (allSolved.includes(state?.questionList[i]?.qid)) {
+        solved++;
+      }
+    }
+
+    setSolvedQuestionLength(solved);
+
     setTotalQuestionLength(state?.questionList?.length);
   }, [state]);
 

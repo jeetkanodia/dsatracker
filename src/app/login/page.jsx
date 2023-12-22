@@ -1,7 +1,9 @@
 "use client";
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/context/user.context";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const EmailSection = () => {
   const { state, dispatch } = useContext(UserContext);
 
@@ -10,11 +12,17 @@ const EmailSection = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   useEffect(() => {
     const token = state?.userToken || localStorage.getItem("token");
 
     if (token) {
-      window.location.href = "/";
+      router.push("/");
+    }
+    console.log(state?.toastMessage);
+    if (state?.toastMessage === "Please Login to continue") {
+      toast.error(state?.toastMessage);
     }
   }, []);
 
@@ -45,7 +53,7 @@ const EmailSection = () => {
           userToken: data.token,
         },
       });
-      window.location.href = "/";
+      router.push("/");
     }
   };
   //radial-gradient(rgb(42, 37, 65), rgb(0, 0, 0))
@@ -56,6 +64,7 @@ const EmailSection = () => {
       }}
       className="absolute top-0 w-full min-h-screen flex items-center justify-center"
     >
+      <Toaster />
       <div className="bg-[rgba(255,255,255,0.1)] w-96 h-auto rounded-3xl mx-7 flex flex-col py-4 px-2  items-center justify-center">
         <h2 className="text-3xl font-bold text-white mb-5">Log In</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">

@@ -2,7 +2,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "@/context/user.context";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const EmailSection = () => {
+  const router = useRouter();
   const { state, dispatch } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ const EmailSection = () => {
   useEffect(() => {
     const token = state?.userToken || localStorage.getItem("token");
     if (token) {
-      window.location.href = "/";
+      router.push("/");
     }
   }, []);
 
@@ -52,7 +54,7 @@ const EmailSection = () => {
         },
       });
 
-      window.location.href = "/";
+      router.push("/");
     }
   };
 

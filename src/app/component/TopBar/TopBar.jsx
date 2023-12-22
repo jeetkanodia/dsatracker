@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-
+import { useRouter } from "next/navigation";
 import {
   Navbar,
   NavbarBrand,
@@ -18,10 +18,11 @@ import { UserContext } from "@/context/user.context";
 import Logo from "./Logo";
 
 export default function TopBar() {
+  const router = useRouter();
   const { state, dispatch } = useContext(UserContext);
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
-    location.href = "/";
+    router.push("/");
   };
 
   return (

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, use } from "react";
 import SearchBar from "@/app/component/SearchBar/SearchBar";
 import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
 import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
 import Loader from "@/app/component/Loader/Loader";
 import { QuestionContext } from "@/context/question.context";
 import { UserContext } from "@/context/user.context";
-import toast, { Toaster } from "react-hot-toast";
-
+import { useRouter } from "next/navigation";
 const Page = ({ params }) => {
+  const router = useRouter();
   const { state, dispatch } = useContext(QuestionContext);
   const { state: userState, dispatch: userDispatch } = useContext(UserContext);
   const questionType = params.id;
@@ -23,8 +23,13 @@ const Page = ({ params }) => {
       localStorage.getItem("token") === null &&
       userState?.userToken === null
     ) {
-      toast.error("Please log in to continue. Redirecting to login page....");
-      location.href = "/login";
+      userDispatch({
+        type: "TOAST_MESSAGE",
+        payload: {
+          toastMessage: "Please Login to continue",
+        },
+      });
+      router.push("/login");
     }
 
     if (state?.categoryList.length === 0) {
@@ -38,7 +43,7 @@ const Page = ({ params }) => {
     });
 
     if (!flag) {
-      location.href = "/";
+      router.push("/");
     }
 
     // fetch data from API using post method and pass questionType as body
@@ -102,8 +107,7 @@ const Page = ({ params }) => {
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
   return (
-    <div className="w-full min-h-screen h-auto top-0 absolute bg-[#212121] flex flex-col pt-[80px] items-center">
-      <Toaster />
+    <div className="bg-gradient-to-t from-[#2A2541] from-0% to-[#000000] to-80% w-full min-h-screen h-auto top-0 absolute bg-[#212121] flex flex-col pt-[80px] items-center">
       <h1 className="home-title text-5xl font-bold text-white">
         {questionTypeTitle}
       </h1>

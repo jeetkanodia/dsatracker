@@ -43,8 +43,8 @@ const QuestionTable = () => {
             const id = question.qid;
             const element = document.getElementById(id);
             if (data?.solvedList.includes(question.qid)) {
-              element.classList.add("strikethrough");
-              element.childNodes[3].childNodes[0].checked = true;
+              element?.classList.add("strikethrough");
+              if (element) element.childNodes[3].childNodes[0].checked = true;
             }
           };
 
@@ -57,7 +57,7 @@ const QuestionTable = () => {
     const length = state?.questionList.length;
     const hover = new Array(length).fill(false);
     setHover(hover);
-  }, []);
+  }, [state.questionList]);
 
   // another useEffect to handle checkbox state
   useEffect(() => {
@@ -97,9 +97,9 @@ const QuestionTable = () => {
     const isChecked = e.target.checked;
     const element = document.getElementById(id);
     if (isChecked) {
-      element.classList.add("strikethrough");
+      element?.classList.add("strikethrough");
     } else {
-      element.classList.remove("strikethrough");
+      element?.classList.remove("strikethrough");
     }
 
     const newSolvedQuestionList = state?.solvedQuestionList;

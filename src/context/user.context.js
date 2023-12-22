@@ -5,6 +5,7 @@ const initialState = {
   email: null,
   username: null,
   userToken: null,
+  toastMessage: null,
 };
 
 const reducer = (state, action) => {
@@ -26,6 +27,12 @@ const reducer = (state, action) => {
         username: null,
         userToken: null,
       };
+    case "TOAST_MESSAGE":
+      return {
+        ...state,
+        toastMessage: action.payload.toastMessage,
+      };
+
     default:
       return state;
   }

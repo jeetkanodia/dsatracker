@@ -19,11 +19,11 @@ export async function POST(req, res) {
     const token = authorization.split(" ")[1];
     const { email } = jwt.verify(token, process.env.JWT_SECRET);
 
-    const { category } = await req.json();
-    if (!category) {
-      errorMsg += "No category provided";
-      throw new Error(errorMsg);
-    }
+    // const { category } = await req.json();
+    // if (!category) {
+    //   errorMsg += "No category provided";
+    //   throw new Error(errorMsg);
+    // }
 
     // Await the result of find() and convert it to an array
     const user = await db.collection("users").find({ email }).toArray();
@@ -33,9 +33,9 @@ export async function POST(req, res) {
     }
     let solvedList = [];
     user[0]?.["allQuestions"]?.forEach((catObj) => {
-      if (catObj.category === category) {
-        solvedList = catObj.solvedQuestions;
-      }
+      //if (catObj.category === category) {
+      solvedList = catObj.solvedQuestions;
+      //}
     });
 
     // Return the data as JSON
