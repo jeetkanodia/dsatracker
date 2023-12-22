@@ -8,7 +8,7 @@ import { UserContext } from "../../context/user.context";
 import img from "../../../public/default.jpg";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
-const page = () => {
+const AccountPage = () => {
   const router = useRouter();
   const [image, setImage] = useState("");
 
@@ -181,4 +181,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AccountPage;
