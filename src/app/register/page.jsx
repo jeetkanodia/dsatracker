@@ -47,6 +47,7 @@ const EmailSection = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
+      localStorage.setItem("profileImage", data.profileImage);
 
       dispatch({
         type: "LOGIN",
@@ -54,6 +55,7 @@ const EmailSection = () => {
           username: data.username,
           email: data.email,
           userToken: data.token,
+          profileImage: data.profileImage,
         },
       });
 

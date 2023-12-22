@@ -65,7 +65,7 @@ export async function POST(req, res) {
 
     await client.close();
 
-    return NextResponse.json({ username, email, token });
+    return NextResponse.json({ username, email, token, profileImage });
   } catch (error) {
     return NextResponse.json({ error });
   }
