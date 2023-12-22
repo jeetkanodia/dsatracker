@@ -6,6 +6,7 @@ const initialState = {
   username: null,
   userToken: null,
   toastMessage: null,
+  profileImage: "",
 };
 
 const reducer = (state, action) => {
@@ -16,23 +17,39 @@ const reducer = (state, action) => {
         email: action.payload.email,
         username: action.payload.username,
         userToken: action.payload.userToken,
+        profileImage: action.payload.profileImage,
       };
     case "LOGOUT":
       localStorage.removeItem("token");
       localStorage.removeItem("username");
       localStorage.removeItem("email");
+      localStorage.removeItem("profileImage");
       return {
         ...state,
         email: null,
         username: null,
         userToken: null,
+        profileImage: "",
       };
     case "TOAST_MESSAGE":
       return {
         ...state,
         toastMessage: action.payload.toastMessage,
       };
-
+    case "UPDATE_PROFILE_IMAGE":
+      return {
+        ...state,
+        profileImage: action.payload.profileImage,
+      };
+    case "UPDATE_PROFILE":
+      localStorage.setItem("username", action.payload.username);
+      localStorage.setItem("email", action.payload.email);
+      localStorage.setItem("profileImage", action.payload.profileImage);
+      return {
+        ...state,
+        username: action.payload.username,
+        profileImage: action.payload.profileImage,
+      };
     default:
       return state;
   }
@@ -50,7 +67,7 @@ export const UserContextProvider = ({ children }) => {
     const userToken = localStorage.getItem("token");
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
-
+    const profileImage = localStorage.getItem("profileImage");
     const verifyToken = (token) => {
       try {
         const decoded = jwtDecode(token);
@@ -70,6 +87,7 @@ export const UserContextProvider = ({ children }) => {
             userToken,
             username,
             email,
+            profileImage,
           },
         });
       } catch (error) {
@@ -78,7 +96,7 @@ export const UserContextProvider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
       }
     };
-    if (userToken && username && email) {
+    if (userToken && username && email && profileImage) {
       verifyToken(userToken);
     } else {
       dispatch({ type: "LOGOUT" });

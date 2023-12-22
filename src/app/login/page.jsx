@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useState, useEffect } from "react";
-import { UserContext } from "@/context/user.context";
+import { UserContext } from "../../context/user.context";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,16 +41,20 @@ const EmailSection = () => {
       return;
     }
     if (data.result) {
+      toast.success("Successfully logged in");
       setError("");
+      console.log(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.result.username);
       localStorage.setItem("email", data.result.email);
+      localStorage.setItem("profileImage", data.result.profileImage);
       dispatch({
         type: "LOGIN",
         payload: {
           username: data.result.username,
           email: data.result.email,
           userToken: data.token,
+          profileImage: data.profileImage,
         },
       });
       router.push("/");

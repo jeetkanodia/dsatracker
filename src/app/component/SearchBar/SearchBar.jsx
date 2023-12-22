@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Dropdown from "../Dropdown/Dropdown";
-import { QuestionContext } from "@/context/question.context";
+import { QuestionContext } from "../../../context/question.context";
 const SearchBar = ({ handleFilter, searchQuery, handleSearch }) => {
   return (
     <>

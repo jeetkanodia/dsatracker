@@ -4,7 +4,7 @@
 
 <ol>
 <li>
-    <s>handle solved questions</s> 
+<s>handle solved questions</s> 
  </li>
  <li>
 <s>handle progress bar</s> 
@@ -25,5 +25,8 @@ Add streak feature
  <li>
 DashBoard
 
+ </li>
+ <li>
+Account
  </li>
  </ol>

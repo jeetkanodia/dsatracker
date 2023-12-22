@@ -30,14 +30,6 @@ export async function POST(req, res) {
       return NextResponse.json({ error: "Email already in use" });
     }
 
-    // Check if the user already exists by username
-    const existingUserByUserName = await db
-      .collection("users")
-      .findOne({ username });
-    if (existingUserByUserName) {
-      return NextResponse.json({ error: "Username already in use" });
-    }
-
     // {
     //     "email": "Test@Test.com",
     //     "username" : "Jeet kanodia",
@@ -60,6 +52,7 @@ export async function POST(req, res) {
       username,
       email,
       password: hashedPassword,
+      profileImage: "",
       allQuestions: [],
     };
 

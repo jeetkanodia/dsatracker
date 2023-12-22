@@ -14,7 +14,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { UserContext } from "@/context/user.context";
+import { UserContext } from "../../../context/user.context";
 import Logo from "./Logo";
 
 export default function TopBar() {
@@ -47,7 +47,7 @@ export default function TopBar() {
                 color="secondary"
                 name="Jason Hughes"
                 size="sm"
-                src="https://cdn.discordapp.com/avatars/911699312713560144/4a8013e1bf4929623d0efb79849b0034.png"
+                src={state.profileImage}
               />
             </DropdownTrigger>
             <DropdownMenu

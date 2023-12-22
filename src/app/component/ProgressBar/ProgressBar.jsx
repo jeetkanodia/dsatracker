@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { QuestionContext } from "@/context/question.context";
+import { QuestionContext } from "../../../context/question.context";
 
 const ProgressBar = () => {
   const { state } = useContext(QuestionContext);

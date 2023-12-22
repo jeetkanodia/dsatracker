@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { QuestionContext } from "@/context/question.context";
+import { QuestionContext } from "../context/question.context";
 import Card from "./component/Card/Card";
 import Loader from "./component/Loader/Loader";
 import { TypeAnimation } from "react-type-animation";

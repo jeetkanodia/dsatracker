@@ -22,6 +22,8 @@ export async function POST(req, res) {
       return NextResponse.json({ error: "Email does not exist" });
     }
 
+    console.log(userExists);
+
     // check if the password is valid
     const validPassword = await bcrypt.compare(password, userExists.password);
     if (!validPassword) {
@@ -31,6 +33,7 @@ export async function POST(req, res) {
     const result = {
       email: userExists.email,
       username: userExists.username,
+      profileImage: userExists.profileImage,
     };
 
     // Create a JWT token

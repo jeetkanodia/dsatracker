@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { QuestionContext } from "@/context/question.context";
-import { UserContext } from "@/context/user.context";
+import { QuestionContext } from "../../../context/question.context";
+import { UserContext } from "../../../context/user.context";
 import "./QuestionTable.css";
 import Link from "next/link";
 const QuestionTable = () => {

@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "@/context/user.context";
+import { UserContext } from "../../context/user.context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 const EmailSection = () => {
   const router = useRouter();
   const { state, dispatch } = useContext(UserContext);
@@ -34,11 +35,13 @@ const EmailSection = () => {
     const data = await res.json();
 
     if (data.error) {
+      toast.error("An error occured");
       setLoading(false);
       setError(data.error);
       return;
     }
     if (data.token) {
+      toast.success("Successfully registered");
       setLoading(false);
       setError("");
       localStorage.setItem("token", data.token);
@@ -65,6 +68,7 @@ const EmailSection = () => {
       }}
       className="bg-[#212121] absolute top-0 w-full min-h-screen flex items-center justify-center"
     >
+      <Toaster />
       <div className="bg-[rgba(255,255,255,0.1)] w-96 h-auto rounded-3xl flex flex-col mx-7 py-4 px-2  items-center justify-center">
         <h2 className="text-3xl font-bold text-white mb-5">Register</h2>
         <section id="contact" className="w-full grid  px-7  gap-4 relative">

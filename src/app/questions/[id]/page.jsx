@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useContext, use } from "react";
-import SearchBar from "@/app/component/SearchBar/SearchBar";
-import QuestionTable from "@/app/component/QuestionTable/QuestionTable";
-import ProgressBar from "@/app/component/ProgressBar/ProgressBar";
-import Loader from "@/app/component/Loader/Loader";
-import { QuestionContext } from "@/context/question.context";
-import { UserContext } from "@/context/user.context";
+import SearchBar from "../../component/SearchBar/SearchBar";
+import QuestionTable from "../../component/QuestionTable/QuestionTable";
+import ProgressBar from "../../component/ProgressBar/ProgressBar";
+import Loader from "../../component/Loader/Loader";
+import { QuestionContext } from "../../../context/question.context";
+import { UserContext } from "../../../context/user.context";
 import { useRouter } from "next/navigation";
 const Page = ({ params }) => {
   const router = useRouter();
