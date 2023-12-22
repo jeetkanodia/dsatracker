@@ -16,7 +16,6 @@ const page = () => {
   const [usernameChanged, setUsernameChanged] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const { state, dispatch } = useContext(UserContext);
 
@@ -152,7 +151,7 @@ const page = () => {
               }}
               name="username"
               type="username"
-              id="email"
+              id="username"
               required
               className="bg-[#212121] mb-4  border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
               placeholder="varuniscool"
@@ -164,7 +163,6 @@ const page = () => {
               Email
             </label>
             <input
-              onChange={(e) => setEmail(e.target.value)}
               name="email"
               type="email"
               id="email"

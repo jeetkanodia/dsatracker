@@ -43,7 +43,6 @@ const reducer = (state, action) => {
       };
     case "UPDATE_PROFILE":
       localStorage.setItem("username", action.payload.username);
-      localStorage.setItem("email", action.payload.email);
       localStorage.setItem("profileImage", action.payload.profileImage);
       return {
         ...state,

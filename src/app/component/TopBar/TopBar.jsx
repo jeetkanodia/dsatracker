@@ -63,10 +63,12 @@ export default function TopBar() {
                 <p className="font-semibold text-white">{state?.username}</p>
               </DropdownItem>
               <DropdownItem key="system">
-                <span className="text-white ">Profile</span>
+                <span className="text-white ">Dashboard</span>
               </DropdownItem>
               <DropdownItem key="configurations">
-                <span className="text-white ">Account</span>
+                <Link href={"/account"}>
+                  <div className="text-white w-full h-full">Account</div>
+                </Link>
               </DropdownItem>
               <DropdownItem key="help_and_feedback">Contact Us</DropdownItem>
               <DropdownItem onClick={handleLogout} key="logout" color="danger">
