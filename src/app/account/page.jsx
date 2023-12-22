@@ -24,8 +24,7 @@ const AccountPage = () => {
     if (
       localStorage.getItem("token") &&
       localStorage.getItem("email") &&
-      localStorage.getItem("username") &&
-      localStorage.getItem("profileImage")
+      localStorage.getItem("username")
     ) {
       setEmail(localStorage.getItem("email"));
       setUsername(localStorage.getItem("username"));
