@@ -12,7 +12,6 @@ const EmailSection = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -27,27 +26,26 @@ const EmailSection = () => {
     setError("");
     e.preventDefault();
     if (!email || !password || !username) return;
-    setLoading(true);
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ username, email, password }),
     });
     const data = await res.json();
 
+    console.log("hi");
     if (data.error) {
       toast.error("An error occured");
-      setLoading(false);
       setError(data.error);
       return;
     }
+    console.log(data);
     if (data.token) {
       toast.success("Successfully registered");
-      setLoading(false);
       setError("");
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
-      localStorage.setItem("profileImage", data.profileImage);
+      localStorage.setItem("profileImage", "");
 
       dispatch({
         type: "LOGIN",
@@ -55,10 +53,10 @@ const EmailSection = () => {
           username: data.username,
           email: data.email,
           userToken: data.token,
-          profileImage: data.profileImage,
+          profileImage: "",
         },
       });
-
+      console.log("check");
       router.push("/");
     }
   };
@@ -176,7 +174,6 @@ const EmailSection = () => {
                 </Link>
               </p>
               <button
-                disabled={loading}
                 type="submit"
                 className="bg-secondary hover:bg-secondary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
               >

@@ -15,6 +15,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { UserContext } from "../../../context/user.context";
+import img from "../../../../public/default.jpg";
 import Logo from "./Logo";
 
 export default function TopBar() {
