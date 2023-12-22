@@ -7,7 +7,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { UserContext } from "../../context/user.context";
 import img from "../../../public/default.jpg";
 import { useRouter } from "next/navigation";
-import { set } from "mongoose";
 const AccountPage = () => {
   const router = useRouter();
   const [image, setImage] = useState("");
