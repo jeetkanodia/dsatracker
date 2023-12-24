@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -7,12 +7,19 @@ function classNames(...classes) {
 }
 
 export default function Dropdown({ handleFilter }) {
+  const [filterData, setFilterData] = useState("All");
+
+  const handleChangeFilter = (e) => {
+    setFilterData(e);
+    handleFilter(e);
+  };
+
   const menuItems = ["All", "Easy", "Medium", "Hard"];
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-secondary px-3 py-2 text-sm font-semibold text-white hover:bg-[#4b2770]">
-          Filters
+          {filterData === "All" ? "Filter" : filterData}
           <ChevronDownIcon
             className="-mr-1 h-5 w-5 text-white"
             aria-hidden="true"
@@ -36,7 +43,7 @@ export default function Dropdown({ handleFilter }) {
                 <Menu.Item key={item}>
                   {({ active }) => (
                     <div
-                      onClick={() => handleFilter(item)}
+                      onClick={() => handleChangeFilter(item)}
                       className={classNames(
                         active ? "bg-[#3c3c3c] text-white" : "text-white ",
                         `${idx === 0 ? "rounded-t-md" : ""} ${
