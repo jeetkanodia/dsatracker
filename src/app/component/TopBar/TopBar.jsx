@@ -64,7 +64,9 @@ export default function TopBar() {
                 <p className="font-semibold text-white">{state?.username}</p>
               </DropdownItem>
               <DropdownItem key="system">
-                <span className="text-white ">Dashboard</span>
+                <Link href={"/dashboard"}>
+                  <div className="text-white w-full h-full">Dashboard</div>
+                </Link>
               </DropdownItem>
               <DropdownItem key="configurations">
                 <Link href={"/account"}>

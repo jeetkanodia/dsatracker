@@ -29,7 +29,6 @@ const reducer = (state, action) => {
         filterQuestionList: action.payload.filterQuestionList,
       };
     case "SET_CATEGORYLIST":
-      console.log(state);
       return {
         ...state,
         categoryList: action.payload.categoryList,
@@ -47,7 +46,6 @@ export const QuestionContext = createContext({
 export const QuestionContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    console.log("fetching data");
     function fetchData() {
       fetch("/api/questions")
         .then((res) => res.json())
