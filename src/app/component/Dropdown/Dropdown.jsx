@@ -7,7 +7,7 @@ function classNames(...classes) {
 }
 
 export default function Dropdown({ handleFilter }) {
-  const menuItems = ["All", "easy", "medium", "hard"];
+  const menuItems = ["All", "Easy", "Medium", "Hard"];
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>

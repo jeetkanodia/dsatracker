@@ -35,8 +35,8 @@ const Dashboard = () => {
             <Image
               alt="check"
               className="w-44 z-50 h-44 rounded-full"
-              width={0}
-              height={0}
+              width={1}
+              height={1}
               src={image ? image : img}
             />
           </div>
