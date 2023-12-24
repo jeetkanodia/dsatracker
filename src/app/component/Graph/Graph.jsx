@@ -28,6 +28,7 @@ export default function Graph() {
       },
     },
     responsive: true,
+    mainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom",
